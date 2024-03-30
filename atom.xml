@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>古怪杂记本</title>
+  
+  
+  <link href="http://gug.thisis.host/atom.xml" rel="self"/>
+  
+  <link href="http://gug.thisis.host/"/>
+  <updated>2024-03-29T13:59:19.591Z</updated>
+  <id>http://gug.thisis.host/</id>
+  
+  <author>
+    <name>GuuGuai</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mifare classic 1k卡片笔记</title>
+    <link href="http://gug.thisis.host/202402/mifare-class-1k/"/>
+    <id>http://gug.thisis.host/202402/mifare-class-1k/</id>
+    <published>2024-02-29T13:29:35.000Z</published>
+    <updated>2024-03-29T13:59:19.591Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>本篇博客内容是来自前几周折腾复制M1卡的时候了解到的知识点，并不系统全面，遇到什么问题就去查这一部分的资料而已。</p><h2 id="Mifare-classic系列卡片简介"><a href="#Mifare-classic系列卡片简介" class="headerlink" title="Mifare classic系列卡片简介"></a>Mifare classic系列卡片简介</h2><p>MIFARE Classic系列卡片是由恩智浦半导体公司（NXP）制造的非接触式智能卡，系列所有卡片的工作频率均为13.56 MHZ，符合ISO 14443规范，早在1994年就已经崭露头角，如今仍然广泛使用。MIFARE是恩智浦半导体公司拥有的一系列卡片的注册商标，这项技术是最早是1994年由米克朗集团（Mikron Group）开发，在1998年转售给飞利浦电子公司（2006年拆分成为恩智浦半导体公司）。</p><p>1994年Mifare classic 1k卡片诞生，在此之后虽然推出了各种卡片，但是Mifare classic 1k卡片的地位仍然不可撼动，本文主要讨论的是Mifare classic 1k卡片。</p><h2 id="Mifare-classic-1k卡片数据结构"><a href="#Mifare-classic-1k卡片数据结构" class="headerlink" title="Mifare classic 1k卡片数据结构"></a>Mifare classic 1k卡片数据结构</h2><p>Mifare classic 1k卡片简称为m1卡，卡片储存空间1 KB，由16个扇区组成（0-15扇区），每扇区包含4个块（0-3块），总共64块（0-63块），每块包含16字节。<br>其中第0扇区第0块被称为制造商块，储存了卡号和厂商信息，标准的M1卡0扇区0块已经固化无法写入。</p><p>除0扇区外所有扇区的0-2块为数据块，即3个数据块（0扇区只有1-2两个数据块，0块已固化），第3块为控制块（官方文档中称其为扇区尾块）用于存储密钥A（前六字节）、密钥B（后六字节）和存取控制位（中间四字节）。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;0&quot;</span><span class="punctuation">:</span> <span class="string">&quot;A9CB0E2E420804000291ED9CDA29081D&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;3&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFFFFFFFFFFFFF078069FFFFFFFFFFFF&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;4&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;5&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;6&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;7&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFFFFFFFFFFFFF078069FFFFFFFFFFFF&quot;</span><span class="punctuation">,</span></span><br><span class="line">...</span><br><span class="line"><span class="attr">&quot;60&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;61&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;62&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;63&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFFFFFFFFFFFFF078069FFFFFFFFFFFF&quot;</span></span><br></pre></td></tr></table></figure><p>上面的是一张空白卡片的数据，其中省略号代表重复的部分。</p><h2 id="访问条件"><a href="#访问条件" class="headerlink" title="访问条件"></a>访问条件</h2><p>存取控制位决定了该扇区内数据块的访问条件，例如FF078069是m1卡默认的存取控制位组合，该组合代表了该扇区内数据块可以被密钥A与密钥B读写，控制块内除Key A不可读外其余都可以被密钥A读写。</p><p>也就是说每个扇区的块3控制着整个扇区的读写权限，A、B密钥分别有那些操作的权限由中间的存取控制位决定，具体的控制位详解可以看这篇博客：<a href="https://www.cnblogs.com/strengthen/p/16252551.html">M1卡区块控制位理论详解-为敢技术</a></p><h2 id="常见变种卡"><a href="#常见变种卡" class="headerlink" title="常见变种卡"></a>常见变种卡</h2><ul><li>普通M1卡：0扇区0块出厂锁死不可改，其它扇区可重复修改</li><li>UID卡：又称一代魔术卡，0扇区0块可改，其它扇区可重复修改；但是无法使用一般的write命令修改，需通过特殊的指令才可以修改0块，因此该卡片无法通过MCT等常见手机NFC读写卡软件进行修改（估计需要专门的设备进行修改），另外刷卡机的防火墙也根据UID卡会响应后门指令这一点来判断卡片合法性</li><li>CUID卡：又称二代魔术卡，0扇区0块可改，其它扇区可重复修改；不再响应后面指令，绕过针对后门指令的防火墙检测，同时可以使用write命令写入，支持MCT等常见手机NFC读写卡软件写入，但是由于它可以通过write命令无限次修改0块，刷卡机防火墙可以在每次刷卡时尝试修改0块来检测卡片合法性，这也就是有些复制卡刷过一次就失效的原因</li><li>FUID卡：0扇区0块只能修改一次，修改后自动锁定，其它扇区可重复修改；也就意味着修改一次0扇区0块后这张卡可以当作一张标准的m1卡来使用，以此绕过防火墙的检测，但也因为只能修改一次0块，该卡不能多次使用</li><li>UFUID卡：0扇区0块可改，可以手动锁死0扇区0块，其它扇区可重复修改；不锁定时可以多次修改0扇区0块，手动锁定后就是一张标准的m1卡，解决了FUID卡只能使用一次的缺点。</li></ul><p>相对应的，卡片的价格基本上是按照这个排列顺序上涨的。</p><h2 id="实操-某校园卡门禁功能复制"><a href="#实操-某校园卡门禁功能复制" class="headerlink" title="实操-某校园卡门禁功能复制"></a>实操-某校园卡门禁功能复制</h2><h3 id="设备与软件"><a href="#设备与软件" class="headerlink" title="设备与软件"></a>设备与软件</h3><p>常见的小红板、PCR532、PM-pro基本都是把PN532等NFC芯片和配套模块打包集成，再加上写其它的拓展功能，软硬件捆绑销售。<br>但是需求决定设备与软件，本人所持校园卡并没有特殊加密等，所以没有必要上PCR532等设备，使用安卓手机+MIFARE Classic Tool（简称MCT）软件即可。</p><h3 id="读取卡片"><a href="#读取卡片" class="headerlink" title="读取卡片"></a>读取卡片</h3><p>打开MCT软件选择读标签，勾选密钥文件并开始映射读取标签，我们可以得到以下数据：</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;0&quot;</span><span class="punctuation">:</span> <span class="string">&quot;693B00B1E32804009010150100000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;3&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFFFFFFFFFFFFF078069FFFFFFFFFFFF&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;4&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;5&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;6&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;7&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFFFFFFFFFFFFF078069FFFFFFFFFFFF&quot;</span><span class="punctuation">,</span></span><br><span class="line">...</span><br><span class="line"><span class="attr">&quot;60&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;61&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;62&quot;</span><span class="punctuation">:</span> <span class="string">&quot;00000000000000000000000000000000&quot;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;63&quot;</span><span class="punctuation">:</span> <span class="string">&quot;FFFFFFFFFFFFFF078069FFFFFFFFFFFF&quot;</span></span><br></pre></td></tr></table></figure><p>读出来我们发现，这张校园卡其实是一张空卡，数据块全是空白的，那就意味着校园内的设备其实是通过读取0扇区0块即厂商块中的UID来验证身份的，设备读取到UID后联网查询数据库内该UID对应的持卡人信息；在这张卡的厂商块中，前八位是卡片UID，所以理论上我们只需要找一张卡模拟前八位UID即可完成校园卡门禁功能的复制，根据前面所介绍的卡片种类，决定使用CUID卡进行复制。</p><h3 id="复制UID"><a href="#复制UID" class="headerlink" title="复制UID"></a>复制UID</h3><p>MCT软件提供了一个快速复制卡片UID的功能，无需使用写标签功能，位置在：工具-克隆UID</p><p>进入页面后先刷一下校园卡，MCT会提取该卡片的UID，点击计算块0并克隆UID按钮后，MCT会计算填充UID后面剩余的厂商信息、SAK和ATQA等值（当然你也可以自己填充这些内容，点击显示选项即可自由修改）</p><p>然后将CUID卡刷一下，正常情况下MCT会提示完成写入，这时再刷一下卡片进行数据校验以验证是否完成写入操作。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h2&gt;&lt;p&gt;本篇博客内容是来自前几周折腾复制M1卡的时候了解到的知识点，并不系统全面，遇到什么问题就去查这一部分的资料而已。&lt;/p&gt;
+&lt;</summary>
+      
+    
+    
+    
+    <category term="经验分享" scheme="http://gug.thisis.host/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+    <category term="卡片" scheme="http://gug.thisis.host/tags/%E5%8D%A1%E7%89%87/"/>
+    
+    <category term="Mifare Classic 1k" scheme="http://gug.thisis.host/tags/Mifare-Classic-1k/"/>
+    
+    <category term="NFC" scheme="http://gug.thisis.host/tags/NFC/"/>
+    
+    <category term="校园卡" scheme="http://gug.thisis.host/tags/%E6%A0%A1%E5%9B%AD%E5%8D%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的银行卡</title>
+    <link href="http://gug.thisis.host/202402/my-card/"/>
+    <id>http://gug.thisis.host/202402/my-card/</id>
+    <published>2024-02-20T08:14:29.000Z</published>
+    <updated>2024-03-29T14:00:00.971Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="中国银行"><a href="#中国银行" class="headerlink" title="中国银行"></a>中国银行</h2><p>中国银行的卡片一共申请了5张实体卡，其它银联借记卡4张，万事达借记卡1张，4张银联卡中，可正常使用3张，1张已销户；万事达借记卡1张可正常使用。<br>中国银行自2022年2月起免除了<strong>所有</strong>个人借记卡年费和小额管理费。</p><h3 id="天依小柠檬联名借记IC卡"><a href="#天依小柠檬联名借记IC卡" class="headerlink" title="天依小柠檬联名借记IC卡"></a>天依小柠檬联名借记IC卡</h3><p><a href="https://imgloc.com/image/oEwpA"><img src="https://i0.imgs.ovh/2024/02/19/oEwpA.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/19/oEwpA.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="oEwpA.md.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621790<br> 卡类型：借记卡<br> 产品代码：102910019<br> 我的开户行：中国银行上海市奉城支行<br> 申请途径：<del><a href="https://cloud.bankofchina.com/sh/html/h5/card/indexreal.html?index=1&apply=direct&applyCode=2021081974100010">中国银行上海分行网申系统</a></del><br> 有效期：10年<br> 工本费：0元</p><blockquote><p>这张卡是我2022年底申请的，目前已经停止申请了；<br>卡片于2019年开放申请，第一批5000张的开卡礼为限定明信片和书签，2020年推出洛天依8周年中行典藏纪念卡，限量发放20000张。</p></blockquote><div class="note quote"><p>洛天依卡采用3D透明工艺，卡面上的天依采用浮雕工艺浮现在卡片上，小裙子采用GemStar工艺，如同夜空中的繁星点点，更如同晶莹剔透的宝石。</p></div><h3 id="万事达世界借记卡"><a href="#万事达世界借记卡" class="headerlink" title="万事达世界借记卡"></a>万事达世界借记卡</h3><p><a href="https://imgloc.com/image/oETwo"><img src="https://i0.imgs.ovh/2024/02/19/oETwo.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/19/oETwo.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="oETwo.md.jpeg"></a></p><p> 卡组织：万事达Mastercard<br> 卡Bin：533228<br> 卡类型：借记卡<br> 卡等级：世界 World<br> 产品代码：106400001<br> 我的开户行：中国银行上海市分行营业部<br> 申请途径：<a href="https://cloud.bankofchina.com/sh/html/h5/card/indexreal.html?index=1&apply=direct&applyCode=2023073142200010&applyCode=2023073142200010">中国银行上海分行网申系统</a><br> 有效期：6年<br> 工本费：0元<br> <strong>接受一人四卡数量限制</strong><br> 推荐阅读：<a href="https://poplite.xyz/post/2018/03/05/boc-debit-card-guide-for-online-payment.html">跨境通VISA&#x2F;万事达借记卡介绍与网上支付体验</a></p><blockquote><p>在2022年八九月拿到手的，搭配天依卡购汇使用，主要用途是购买海外一些站点的数字资源，这个卡评价还是很不错的，实际使用中没有出现拒付的情况，需要注意的是：这张卡片不支持人民币结算相关业务，没有人民币账户，必须搭配本人名下中行<strong>一类银联卡购汇</strong>后转账使用，其它银行一类银联卡无法通过手机银行自助转账，需前往对应银行柜台进行转账。</p></blockquote> <div class="note warning"><p>这张卡目前仍然可以申请，但是在2023年下半年中行上海分行更新系统后，网申只能寄到所选的上海市内开户行，并且需要本人去开户行现场领卡激活，非人哉联名万事达卡也是如此。</p></div><h3 id="长城CCG联名借记卡（茈绫卡）"><a href="#长城CCG联名借记卡（茈绫卡）" class="headerlink" title="长城CCG联名借记卡（茈绫卡）"></a>长城CCG联名借记卡（茈绫卡）</h3><p><a href="https://imgloc.com/image/oGBbp"><img src="https://i0.imgs.ovh/2024/02/19/oGBbp.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/19/oGBbp.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="oGBbp.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621790<br> 卡类型：借记卡<br> 产品代码：<del>102910021</del><br> 我的开户行：中国银行上海市碧云支行<br> 申请途径：<del><a href="https://cloud.bankofchina.com/sh/api/net/common/url/adr?id=ccgzilingcard">中国银行上海分行网申系统</a></del><br> 有效期：10年（本人已注销）<br> 工本费：0元</p><blockquote><p>该卡卡面为 CCG EXPO 看板娘茈绫，由日本知名插画师 Tony 创作并绘制。于2021年7月开放申请，首批办理的用户有机会获得限定闪卡、明信片等实物礼品。</p></blockquote><div class="note warning"><p>目前<strong>活动已经结束</strong>，无法办理。并且由于监管原因，只能拥有CCG联名卡的卡熊、茈绫2021和茈绫2023卡面其中之一。 （我猜这个监管原因是因为CCG联名系列一个有三张卡片，但是这三张卡片的<strong>产品代码都是一样的</strong>，所以看起来是出了新卡片，实际上是一个卡片产品只换卡面）</p></div><h3 id="长城CCG联名借记卡（茈绫2023）"><a href="#长城CCG联名借记卡（茈绫2023）" class="headerlink" title="长城CCG联名借记卡（茈绫2023）"></a>长城CCG联名借记卡（茈绫2023）</h3><p><a href="https://imgloc.com/image/ovNR9"><img src="https://i0.imgs.ovh/2024/02/20/ovNR9.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/ovNR9.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ovNR9.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621790<br> 卡类型：借记卡<br> 产品代码：102910021<br> 我的开户行：中国银行上海市碧云支行<br> 申请途径：<a href="https://cloud.bankofchina.com/sh/api/net/common/url/adr?id=ziling2023pukaifa">中国银行上海分行网申系统</a><br> 有效期：10年<br> 工本费：0元</p><blockquote><p>这张卡的卡面仍然由 Tony 创作并绘制，于2023年七月开放申请，在CCG2023展会期间在中行站台办理即可获得手提袋、贴纸、飞盘、冰箱贴、扇子等实物礼品，在上海市内指定网点开卡有机会获得CCG门票一张；此外，这次的卡片采用透明材质制作，在人物轮廓线上制作了UV浮雕，眼镜采用了镭射烫印（虽然我手上这张印歪了），目前仍然可以申请。</p></blockquote> <div class="note warning"><p>由于监管原因，只能拥有CCG联名卡的卡熊、茈绫2021和茈绫2023卡面其中之一。（我猜这个监管原因是因为CCG联名系列一共有三张卡片，但是这三张卡片的<strong>产品代码都是一样的</strong>，所以看起来是出了新卡片，实际上是一个卡片产品只换卡面）</p></div><h3 id="上海哔哩哔哩联名借记卡"><a href="#上海哔哩哔哩联名借记卡" class="headerlink" title="上海哔哩哔哩联名借记卡"></a>上海哔哩哔哩联名借记卡</h3><p><a href="https://imgloc.com/image/Sr8pu"><img src="https://i0.imgs.ovh/2024/02/20/Sr8pu.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/Sr8pu.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="Sr8pu.md.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621790<br> 卡类型：借记卡<br> 产品代码：102910029<br> 我的开户行：中国银行上海市上海交通大学支行<br> 申请途径：<a href="https://cloud.bankofchina.com/sh/api/net/common/url/adr?id=bilibilicardziyou">中国银行上海分行网申系统</a><br> 有效期：10年<br> 工本费：0元</p><blockquote><p>这张卡片于2023年5月底开放申请，首批限量发行23000张，活动期间可以以2.33元开双月卡（仅限新户），还有季卡年卡优惠活动，这次的卡面比较精美，人物和背景都有UV浮雕，背景使用“撒稀疏彩金”工艺，会变换颜色，2233服饰采用“花纹琥珀烫”工艺，整体采用“四色印刷”工艺。<br>值得注意的是，这张卡片在也获得了比较高的关注度，并且上海市分行有意将其推广到上海市外的线下网点柜台申请，有一段时间里该卡片拒绝批准上海市外地址的申请 [^1]，理由正是如此，不过截止24年2月21日仍未有进一步消息。<br>[^1]: 参见：<a href="https://i0.imgs.ovh/2024/02/20/SrD7l.jpeg">https://i0.imgs.ovh/2024/02/20/SrD7l.jpeg</a></p></blockquote><h2 id="招商银行"><a href="#招商银行" class="headerlink" title="招商银行"></a>招商银行</h2><h3 id="哔哩哔哩花嫁联名储蓄卡"><a href="#哔哩哔哩花嫁联名储蓄卡" class="headerlink" title="哔哩哔哩花嫁联名储蓄卡"></a>哔哩哔哩花嫁联名储蓄卡</h3><p><a href="https://imgloc.com/image/SraVI"><img src="https://i0.imgs.ovh/2024/02/20/SraVI.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/SraVI.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="SraVI.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621483<br> 卡类型：借记卡<br> 我的开户行：招商银行西安雁塔路支行<br> 申请途径：<a href="https://mobile.cmbchina.com/dcamobile/applycard/fillapplyinfo.html?utm_id=&FamilyCorperationCode=F00000GCA000000000000101sqcxk00000530000000wxmgm000000000000&Organization=100531&FamilyBranchId=100&BranchID=100&FamilyRecmCode=286807&FamilyOrganization=100531&CorperationCode=T00018GCA000000000000100qjflby016028000000000000000000000000&RecmCode=&FamilyUtmId=&FamilyOriginCode=F00000GCA000000000000101sqcxk0000053000000000000000000000000">招商银行储蓄卡申请</a><br> 有效期：10年<br> 工本费：0元<br> 账户管理费：减免</p><blockquote><p>这张卡已经知道好几年了。22年曾申请过，不过当时因为疫情原因无法领卡，23年2月重新申请并完成了领卡激活，领卡完成后可以在招商银行客户端活动中心领取哔哩哔哩大会员季卡和客户端专属皮肤，卡面2233的人物轮廓线采用了UV浮雕，可惜的我的这张卡颜色有一点淡。</p></blockquote><h3 id="招商银行银联无界借记卡"><a href="#招商银行银联无界借记卡" class="headerlink" title="招商银行银联无界借记卡"></a>招商银行银联无界借记卡</h3><p><a href="https://imgloc.com/image/S2nko"><img src="https://i0.imgs.ovh/2024/02/20/S2nko.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/S2nko.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="S2nko.md.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621276<br> 卡类型：银联无界借记卡<br> 我的开户行：招商银行深圳总行大厦营业部<br> 申请途径：云闪付客户端<br> 工本费：0元<br> 账户管理费：无</p><blockquote><p>这张卡是银联数字无界卡，全程线上申请开立，不配发实体卡片，在招行属于一网通账户III类户，可绑定微信支付宝云闪付以及银联手机闪付，办这个卡的主要原因是参加银联数字礼遇季活动，参见<a href="https://gug.thisis.host/2024/01/22/clip-coupons-2023/#%E4%BA%91%E9%97%AA%E4%BB%98">过去一年薅的羊毛</a>。</p></blockquote><h2 id="中国建设银行"><a href="#中国建设银行" class="headerlink" title="中国建设银行"></a>中国建设银行</h2><h3 id="龙卡通（储蓄卡）"><a href="#龙卡通（储蓄卡）" class="headerlink" title="龙卡通（储蓄卡）"></a>龙卡通（储蓄卡）</h3><p><a href="https://imgloc.com/image/S2WKC"><img src="https://i0.imgs.ovh/2024/02/20/S2WKC.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/S2WKC.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="S2WKC.md.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621700<br> 卡类型：借记卡<br> 我的开户行：中国建设银行股份有限公司西安高新技术产业开发区支行<br> 申请途径：大学代理申请<br> 有效期：10年<br> 工本费：0元<br> 账户管理费：减免</p><blockquote><p>没啥说的，大学统一代理申请的银行卡，卡面默认，用途是发放奖学金和勤工俭学工资等等。</p></blockquote><h3 id="建行钱包"><a href="#建行钱包" class="headerlink" title="建行钱包"></a>建行钱包</h3><p><a href="https://imgloc.com/image/S2uZd"><img src="https://i0.imgs.ovh/2024/02/20/S2uZd.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/S2uZd.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="S2uZd.md.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：623644<br> 卡类型：借记卡<br> 申请途径：客户端自助申请<br> 账户管理费：无</p><blockquote><p>“建行钱包”是注册成为龙支付用户或通过云闪付APP开立建行II类&#x2F;III类账户后生成的虚拟钱包账户。</p></blockquote><h2 id="中国农业银行"><a href="#中国农业银行" class="headerlink" title="中国农业银行"></a>中国农业银行</h2><h3 id="金穗借记卡"><a href="#金穗借记卡" class="headerlink" title="金穗借记卡"></a>金穗借记卡</h3><p><a href="https://imgloc.com/image/S2il3"><img src="https://i0.imgs.ovh/2024/02/20/S2il3.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/S2il3.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="S2il3.md.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：622848<br> 卡类型：借记卡<br> 我的开户行：农行宝鸡金渭支行营业室<br> 申请途径：高中代理申请<br> 有效期：49年<br> 工本费：0元<br> 账户管理费：减免</p><blockquote><p>没什么说的，高中代理申请的，用于校园一卡通圈存业务，目前几乎不使用，因为限额太低。（不过卡片有效期为什么这么长）</p></blockquote><h2 id="中国工商银行"><a href="#中国工商银行" class="headerlink" title="中国工商银行"></a>中国工商银行</h2><h3 id="陕西省社会保障卡"><a href="#陕西省社会保障卡" class="headerlink" title="陕西省社会保障卡"></a>陕西省社会保障卡</h3><p><a href="https://imgloc.com/image/S281o"><img src="https://i0.imgs.ovh/2024/02/20/S281o.md.jpeg" class="lazyload" data-srcset="https://i0.imgs.ovh/2024/02/20/S281o.md.jpeg" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="S281o.md.jpeg"></a><br> 卡组织：银联UnionPay<br> 卡Bin：621721<br> 卡类型：借记卡-社会保障卡<br> 申请途径：户口所在地村委会代理申请<br> 有效期：10年</p><blockquote><p><del>由于没有前往银行激活卡片，金融功能暂未启用。</del><br>2024.02.25更新：已经激活启用金融功能，激活金融功能后可以当作一张工商银行借记卡使用，有时会有工商银行社保卡专属活动。</p></blockquote>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;中国银行&quot;&gt;&lt;a href=&quot;#中国银行&quot; class=&quot;headerlink&quot; title=&quot;中国银行&quot;&gt;&lt;/a&gt;中国银行&lt;/h2&gt;&lt;p&gt;中国银行的卡片一共申请了5张实体卡，其它银联借记卡4张，万事达借记卡1张，4张银联卡中，可正常使用3张，1张已销户；万事达借</summary>
+      
+    
+    
+    
+    <category term="经验分享" scheme="http://gug.thisis.host/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+    <category term="银行" scheme="http://gug.thisis.host/tags/%E9%93%B6%E8%A1%8C/"/>
+    
+    <category term="银行卡" scheme="http://gug.thisis.host/tags/%E9%93%B6%E8%A1%8C%E5%8D%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MATLAB-笔记1</title>
+    <link href="http://gug.thisis.host/202401/matlab-note1/"/>
+    <id>http://gug.thisis.host/202401/matlab-note1/</id>
+    <published>2024-01-29T07:29:45.000Z</published>
+    <updated>2024-03-30T05:11:47.053Z</updated>
+    
+    <content type="html"><![CDATA[<div class="note warning"><p>以下内容仅为笔记，仅供参考复习</p></div><div class="note link green"><p><a href="https://www.bilibili.com/video/BV1Az41187mi?p=1&vd_source=0ba530b3a9600f6e711ed9a290af87e0">对应课程地址</a></p></div><h2 id="控制台"><a href="#控制台" class="headerlink" title="控制台"></a>控制台</h2><ul><li>；抑制输出，运行但不输出</li><li>clc清空输出，clear彻底清空，clear加变成名称可以指定清除某变量（可跟多个）</li><li>输入脚本名，matlab会自动查找工作目录以及上级目录下是否有对应脚本，工作目录有则运行，上级目录有则提示是否更改目录。</li><li>大小写敏感</li><li>变量名称仅允许以字母开头，，后面可以使用字母数字特殊符号，最大长度63字符</li><li>使用who查看所有变量名称，whose查看详细</li><li>执行format long命令可以在后续输出全部位数的有效数字</li><li>光标位于命令中按F1查看该命令帮助</li><li>在已经有输入内容的时候按方向上只会显示与已有内容有关的</li><li>% 注释符</li></ul><h2 id="数据类型相关"><a href="#数据类型相关" class="headerlink" title="数据类型相关"></a>数据类型相关</h2><ul><li>数据类型(变量名) 可以指定数据类型，如：single(sum),int8&#x2F;16&#x2F;32&#x2F;64(sum)等等(uint为不带符号)</li><li>‘Apple’为char类型，”Apple”为string字符串类型</li><li>5&#x2F;2&#x3D;2.5，5\2&#x3D;0.4，2 ^ 3&#x3D;8，3e8&#x3D;3*10 ^ 8 </li><li>format compact命令，紧凑输出；format loose 默认显示空格。</li><li>…结尾当换行符</li><li>运算优先级：() &gt; ^ &gt; -(负号）&gt; * ,&#x2F;,\ &gt; + ,-  ；即括号&gt;幂次&gt;负号&gt;乘除&gt;加减<br><a href="https://ww2.mathworks.cn/help/matlab/matlab_prog/operator-precedence.html">MATLAB帮助中心-运算优先级条目</a></li><li>i 和 j 默认为虚数单位，若被当作变量赋值，在其前面加上常数即可重新被认为是虚数单位，如：2+3 * 1i或1+3i</li><li>inf 和-inf代表无穷大和负无穷大，本质是double</li><li>NaN 表示非数字值，本质double</li><li>logical为逻辑变量类型，0为true，1为false<blockquote><p>3&gt;5会返回逻辑变量1，3&lt;5返回0</p></blockquote></li></ul><h2 id="基本函数"><a href="#基本函数" class="headerlink" title="基本函数"></a>基本函数</h2><ul><li>help elfun 基本函数帮助信息，help 函数名 返回对应函数的帮助</li><li>sqrt()开方</li><li>abs()绝对值</li></ul><h3 id="随机数函数"><a href="#随机数函数" class="headerlink" title="随机数函数"></a>随机数函数</h3><ul><li>rand（）直接输出是0-1的伪随机数，后面加* n可以改变随机范围</li><li>randn()生成标准正态分布上的随机数，randi([1 10])，生成1-10上的伪随机整数</li><li>rng（）设置随机数种子， seed为非负整数，如 rng(1)，用该种子初始化随机数生成器，将 seed 指定为 “shuffle”，以根据当前时间初始化生成器种子，即rng(‘shuffle’)<blockquote><p>要生成特定范围的随机数，比如20-35，可以：15* rand()+20</p></blockquote></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;div class=&quot;note warning&quot;&gt;&lt;p&gt;以下内容仅为笔记，仅供参考复习&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&quot;note link green&quot;&gt;&lt;p&gt;&lt;a href=&quot;https://www.bilibili.com/video/BV1Az41187mi?</summary>
+      
+    
+    
+    
+    <category term="数学建模" scheme="http://gug.thisis.host/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
+    
+    
+    <category term="数学建模" scheme="http://gug.thisis.host/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
+    
+    <category term="MATLAB" scheme="http://gug.thisis.host/tags/MATLAB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>过去一年薅的羊毛</title>
+    <link href="http://gug.thisis.host/202401/clip-coupons-2023/"/>
+    <id>http://gug.thisis.host/202401/clip-coupons-2023/</id>
+    <published>2024-01-22T15:00:51.000Z</published>
+    <updated>2024-03-29T13:59:41.332Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h2><p>薅羊毛已经算是我的一种兴趣了，当然这其中也包括各种特殊的优惠券、支付优惠等等，有些羊毛很细小，有些不仅小而且还有高门槛（这类一般不薅，提一提就过，没啥性价比），我一年下来薅的羊毛大致有以下来源：<br>购物软件：淘宝京东pdd等等<br>支付软件：支付宝和微信等等<br>银行：各种乱七八糟的活动<br>卡组织：银联和万事达的活动<br>（以领取途径为主分类）</p><h2 id="购物软件"><a href="#购物软件" class="headerlink" title="购物软件"></a>购物软件</h2><h3 id="淘宝"><a href="#淘宝" class="headerlink" title="淘宝"></a>淘宝</h3><ul><li>淘宝省钱卡：一般2块以内开一个月甚至数月，开卡后可以每天领取2.01-2.00满减券，适合频繁购买小额商品抵扣，时不时买一次，没什么损失。</li><li>淘金币：淘宝自己的抵扣代币，通过下单评价签到和各种特定任务获得，按照一定比例在特定商品购买时抵扣，只能按照特定比例抵扣，比如“淘金币抵1%”这种标识，一百金币抵扣一块钱。<blockquote><p>本年度最大一笔订单抵扣是买台版魔女之旅1-17册时，抵扣26.25。</p></blockquote></li><li>签到红包：位于主页左上角签到图标，每天签到可以获得小额红包，一两块到四五块不等，签到页面内商品使用，适合于小商品的白嫖：比如自封袋、胶带、修正带等等。</li><li>各类活动的优惠：图书节、618、双十一等等活动期间的优惠券，还有特价商品，这个就太多了，提几个印象深刻的：<blockquote><p>中图深圳的300-100券<br>中图深圳的魔女之旅小说<br>外图图书的130的白圣女与黑牧师漫画</p></blockquote></li></ul><h3 id="京东"><a href="#京东" class="headerlink" title="京东"></a>京东</h3><ul><li>白条：白条新人-80券，平时不定期的也有各种还款红包和白条红包，白条积分也可以在还款时抵扣，注意不想留下征信信息的，先完成学生认证在开通白条，开通时也注意确认协议里面有没有征信授权相关的协议，有则不要开，一般完成学生认证后开通应该会和我一样获得没有征信授权协议+较小额度的白条账户（固定额度3k），据网友说不要使用每个月发放的临时额度（据说会在征信留下痕迹）</li><li>京东金融：会有各种活动获得还款券，还有积分也可以兑换还款券。</li><li>京豆：京东的抵扣代币，基本上买东西都可以抵扣，plus用户返的豆子比较多，而且客服发放补偿什么的也会采用京豆的形式，特别订单评价也会返豆子，抵扣时满500可用，根据京享值不太有不同的最高比例，比如我目前6000+京享值，不得超过应付金额的60%。<blockquote><p>2023年最高一单抵扣是在黑角马图书买魔女之旅18首刷限定，抵扣了33.32元（应付58，红包抵扣0.21，实付24.47）。</p></blockquote></li><li>plus会员：会员来源是白嫖的，详见卡组织羊毛，比较好的羊毛是白嫖了自营运费券、京豆10倍返和一些门槛券，其次还有专属客服，虽然没用几次。</li><li>价格保护：23年就价保了一次，这次价保退费120块。<blockquote><p>价保内容是自营图书里的碧蓝之海台版1-17套装，本身的价格就比市场其它价格就低，买了一套后由于是热销商品很快就无货了，大概在几天后618预热活动直接比购买价低了475，不过当时价保规定在无货状态下不支持价保，后来发现客服那边是可以价保了，最后得以价保成功（当时售价475.5）更离谱的是后面再过了一周618活动升级，价格又减到到了逆天的384.4块，不过已经没用了，一周价保过期了，而且这书自从上次无货后一直处于无货状态，估计也没有人可以买到或价保到如果我当时晚收件几天就可以了。</p></blockquote></li><li>各类活动的优惠：图书节、618、双十一等等活动期间的优惠券，还有特价商品，这个就太多了，提几个印象深刻的：<blockquote><p>支付后抽奖送优惠券，限定商品可用，比如一毛钱的可乐、一次性手套、刷子等等<br>二百块一整套的药师少女的独语漫画<br>碧蓝之海，前文提过</p></blockquote></li></ul><h3 id="拼多多"><a href="#拼多多" class="headerlink" title="拼多多"></a>拼多多</h3><ul><li>平台本身：有些商品平台本身就低价，而且售后不满意还有无门槛券拿，我拿过一次10块的售后补偿券。</li><li>省钱月卡：随机低价开卡（0.01元3月等等），可以领取门槛券，今年没怎么用，因为力度不太行。</li><li>果园券，牧场券，鲜花券，种菜券：pdd大额券常客，满减金额看情况，但比例还可以，比如299-35、399-31、399-40、109-15、79-11等等，属于平台优惠，仅限页面内商品（页面外多刷多搜一些你要买的，他会推送的），也有一些1299-100之类的，没用过。</li><li>多多支付：新人券和平时活动，随机，用过新人优惠，平时活动貌似黑号了没用。</li><li>果园免费水果：年初搞到过一次，因为22年用果园券也买了不少东西，最后发过来的芒果小的一比。</li><li>各类活动的优惠：这个就太多了，提几个印象深刻的：<blockquote><p>一百九十多的文学少女小说<br>多多买菜的零食<br>天角周边清仓</p></blockquote></li></ul><h3 id="淘宝联盟、京粉"><a href="#淘宝联盟、京粉" class="headerlink" title="淘宝联盟、京粉"></a>淘宝联盟、京粉</h3><p>官方推广返利软件，可以自己推给自己买，一般京东的京粉返利比较多，四五个点的商品还不少，淘宝的淘宝联盟对不同等级的推广者要克扣一些钱，初级淘宝客返利比较低，可以用其它软件像防刷刷、吉象这些，走高阶淘宝客的返利，你自己和这些公司瓜分高级返利，反正比初级淘宝客高。拼多多的不要看，店家普遍设置的很低。</p><h3 id="美团"><a href="#美团" class="headerlink" title="美团"></a>美团</h3><ul><li>数字人民币约定返现：中国银行、中国建设银行数字人民币钱包支付，每笔返1%。</li><li>数字人民币支付立减：多行都有，聊胜于无。</li><li>美团支付立减：该行首次绑卡立减很多，之后就随机金额，很少。</li><li>外卖神券省钱包：n * 5元券包，我一般只卖12张的那个包，券包价格看优惠幅度，最便宜的6.1一次，最贵的23.9，不过每次换算下来最少都可以抵掉打包和配送费。</li></ul><h3 id="DLsite"><a href="#DLsite" class="headerlink" title="DLsite"></a>DLsite</h3><ul><li>无门槛300日元优惠券* 3，发放名义未知。</li></ul><h2 id="第三方支付软件"><a href="#第三方支付软件" class="headerlink" title="第三方支付软件"></a>第三方支付软件</h2><ul><li>微信：单独本身没啥活动，银行有的时候会给微信立减金，绑定或其它活动看银行那块的。</li><li>支付宝：有的时候有抵扣红包，不多，没啥特别印象，能想起来的就是过年期间的一些几块几毛的红包，还有集五福，偶尔也会有银行的活动参与，绑定或其他活动，看银行那块的。</li></ul><h2 id="银行"><a href="#银行" class="headerlink" title="银行"></a>银行</h2><h3 id="中国银行"><a href="#中国银行" class="headerlink" title="中国银行"></a>中国银行</h3><h4 id="手机银行"><a href="#手机银行" class="headerlink" title="手机银行"></a>手机银行</h4><ul><li>陕西省分行数币大转盘：每月一次，支付0.02-0.09数字人民币，保底5块微信立减金（最高88，虽然我每次都是保底）</li><li>上海中行月月抽开心：因为我的卡都是上海开户寄出的，所以蹭了几个月上海活动，支付0.01人民币，保底一块微信立减金（最高88）</li><li><strong>哈罗骑行优惠多选一</strong>：中国银行神中神活动，常年开展，22年开始我就买了，23年年初是30天不限次9.9块，14天7次2块，后面开了数币活动，<strong>数字人民币购月卡1块</strong>。</li><li>哔哩哔哩大会员特惠：1块和2.33块买月卡。</li></ul><h4 id="中银跨境GO"><a href="#中银跨境GO" class="headerlink" title="中银跨境GO"></a>中银跨境GO</h4><ul><li>呼朋唤友获好礼：邀请注册绑卡得10元微信立减金。</li><li>跨境GO某月份积分活动：完成任务得尊享积分，可兑换各类服权益和会员，我是换了一个大会员季卡和一个月卡（目前还剩5w足够再换一个季卡和月卡）</li><li>推荐办卡领好礼：自己早就有办万事达（莫奈日出印象那张借记卡），推荐了自己，得30块微信立减金。</li><li>一美元购好礼：使用要求的万事达借记卡一美元可从一堆海外权益和代金券买一个，买了美亚8美元代金券，挂咸鱼48出了。</li></ul><h3 id="招商银行"><a href="#招商银行" class="headerlink" title="招商银行"></a>招商银行</h3><ul><li>新人专享礼：乱七八遭的各种红包，西安分行的新人红包，差不多三十多四十块（记不清了），还有些实物奖品，洗衣液什么的，卡种是哔哩哔哩花嫁卡，领了大会员季卡。</li><li>日常的乱七八糟活动：现金红包，点一下的事，不过不多，还有其它比如骑行周卡、购票满减、缴费满减、消费返现券之类的奖励，大概几十块钱吧。</li><li>数字人民币闯关抽奖：每天5块以上数币支付领红包，0.58保底，活动期间100关。</li><li>数字人民币其它活动：一些5块8块这样的消费体验券。</li><li>云闪付合作满减券：招行借记卡淘宝京东云闪付支付，登录手机银行即可抢<strong>满50-20</strong>，月资产过千<strong>满88-40</strong>，月资产过万<strong>满100-60</strong>，本人抢了第一个，第二三个不达标不能抢。</li><li>云闪付淘宝满减：不止一次50-5。</li></ul><h3 id="中国建设银行"><a href="#中国建设银行" class="headerlink" title="中国建设银行"></a>中国建设银行</h3><h4 id="手机银行-1"><a href="#手机银行-1" class="headerlink" title="手机银行"></a>手机银行</h4><ul><li>新人礼：5折够30元京东E卡 * 1，咸鱼27出了，直接送10元京东E卡 * 1，5块 * 1，咸鱼22.5出了。</li><li>惠省钱：每月36元微信立减金券包，20.1-2、3.01-3、5.01-5、66-6、善融商城100-20（这个我没有用过），价格每次抽取，数币支付还能在这基础上打5折，买下来充饭卡（饭卡交易金额可以自定义，比较方便）</li><li>微信首绑立减金：8块，3+5。</li><li>会员中心每月权益：每月随便点一点就可以到水晶会员，有10元权益额度，可以领取京东卡和猫超卡，咸鱼9块出了，等级越高越多。</li></ul><h4 id="建行生活"><a href="#建行生活" class="headerlink" title="建行生活"></a>建行生活</h4><ul><li>新人礼：数字人民币美团商户满21-20、11-10两张，骑行卡17.5-12.5。</li><li>n月出行季：单车骑行1.5-1.49，实际就是一分钱乘单车。</li><li>日常优惠券：比如外卖20-6，电影20-8打车，10-5等等，还有各大品牌券：K记M记奈雪coco乱七八糟。</li><li>日常活动：很杂，忘记参与哪些了。</li></ul><h2 id="卡组织"><a href="#卡组织" class="headerlink" title="卡组织"></a>卡组织</h2><h3 id="银联"><a href="#银联" class="headerlink" title="银联"></a>银联</h3><h4 id="云闪付"><a href="#云闪付" class="headerlink" title="云闪付"></a>云闪付</h4><ul><li>无界卡数字礼遇季：办理银联数字无界卡，以季度为活动周期，每日调起云闪付使用无界卡支付20元以上记一次合格交易，1、3、6、12、15次有对应奖励，去年Q2刷交易次数拿了最有用的京东plus季卡，Q3没怎么用无界卡，就拿了2张100-10，Q4一点没用，啥都没拿。<blockquote><p>可以办理招商银行数字无界卡借记卡，在线申请开立II类&#x2F;III类，卡面皮卡丘。<br>合格交易去京东自营店买20块以上的东西然后退款就可以刷了。<br>每季奖品变换</p></blockquote></li><li>陕西省政府消费券：只用过网购券：每日满10最高立减2（微信小程序、淘宝、京东pdd美团国网高德等等）</li><li>云陕分：线上线下云闪付支付得积分，下周积分自动兑换成线下闪付支付红包（商户限定），去年4-12月累计兑换26块。</li><li>其它银行合作活动，招行、淘宝那些。</li></ul><h4 id="手机闪付（MiPay）"><a href="#手机闪付（MiPay）" class="headerlink" title="手机闪付（MiPay）"></a>手机闪付（MiPay）</h4><ul><li>银联+：超商满减。</li><li>长安通充值立减：满10随机立减</li><li>银联+新用户：5块立减和6.2立减</li></ul><h3 id="万事达"><a href="#万事达" class="headerlink" title="万事达"></a>万事达</h3><ul><li>万事达卡消费大挑战：境外线上线下任意消费一笔，可领取卡券，我领取了20块京东E卡，咸鱼出了。</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;说在前面&quot;&gt;&lt;a href=&quot;#说在前面&quot; class=&quot;headerlink&quot; title=&quot;说在前面&quot;&gt;&lt;/a&gt;说在前面&lt;/h2&gt;&lt;p&gt;薅羊毛已经算是我的一种兴趣了，当然这其中也包括各种特殊的优惠券、支付优惠等等，有些羊毛很细小，有些不仅小而且还有高门槛（这类</summary>
+      
+    
+    
+    
+    <category term="经验分享" scheme="http://gug.thisis.host/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+    <category term="银行" scheme="http://gug.thisis.host/tags/%E9%93%B6%E8%A1%8C/"/>
+    
+    <category term="薅羊毛" scheme="http://gug.thisis.host/tags/%E8%96%85%E7%BE%8A%E6%AF%9B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Github22端口被占用</title>
+    <link href="http://gug.thisis.host/202401/github-22-timeout/"/>
+    <id>http://gug.thisis.host/202401/github-22-timeout/</id>
+    <published>2024-01-21T05:22:23.000Z</published>
+    <updated>2024-03-29T13:59:45.152Z</updated>
+    
+    <content type="html"><![CDATA[<p>昨天晚上写好一篇文章准备更新博客时，发现连不上GitHub的22端口了，网上查了查教程发现可以换端口，于是写一篇这个备忘。</p><h2 id="更改22端口为443端口"><a href="#更改22端口为443端口" class="headerlink" title="更改22端口为443端口"></a>更改22端口为443端口</h2><p>系统是Windows 11，在用户文件夹下找到.ssh文件夹，新建config文件，在其中填写：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">  Hostname ssh.github.com</span><br><span class="line">  Port 443</span><br></pre></td></tr></table></figure><p>保存关闭即可，clean后重新生成提交就可以了。</p><h2 id="其它情况"><a href="#其它情况" class="headerlink" title="其它情况"></a>其它情况</h2><p>查的时候发现了其它原因导致的连接超时，比如DNS解析，可以先执行</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -vT git@github.com</span><br></pre></td></tr></table></figure><p>看看能否解析到正确的IP地址，解析到其它地方或localhost那就证明是解析出问题了，修改hosts文件添加正确的解析即可。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://zhuanlan.zhihu.com/p/521340971">坑：ssh: connect to host github.com port 22: Connection refused - 无忌的文章 - 知乎</a></li><li><a href="https://zhuanlan.zhihu.com/p/148771981">Github 22端口被占用解决方案 - Wilson27的文章 - 知乎</a></li><li><a href="https://docs.github.com/zh/authentication/connecting-to-github-with-ssh">通过 SSH 连接到 GitHub</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;昨天晚上写好一篇文章准备更新博客时，发现连不上GitHub的22端口了，网上查了查教程发现可以换端口，于是写一篇这个备忘。&lt;/p&gt;
+&lt;h2 id=&quot;更改22端口为443端口&quot;&gt;&lt;a href=&quot;#更改22端口为443端口&quot; class=&quot;headerlink&quot; title=</summary>
+      
+    
+    
+    
+    <category term="经验分享" scheme="http://gug.thisis.host/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+    <category term="Github" scheme="http://gug.thisis.host/tags/Github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数学建模初步认知</title>
+    <link href="http://gug.thisis.host/202401/math-model-note/"/>
+    <id>http://gug.thisis.host/202401/math-model-note/</id>
+    <published>2024-01-20T16:29:33.000Z</published>
+    <updated>2024-03-29T13:59:50.569Z</updated>
+    
+    <content type="html"><![CDATA[<div class="note bug red"><p>随便写的，仅供参考</p></div><p>对数学建模文章怎么写的初步认知。</p><h2 id="建模文章结构"><a href="#建模文章结构" class="headerlink" title="建模文章结构"></a>建模文章结构</h2><ul><li>摘要</li><li>问题重述</li><li>问题分析</li><li>基本假设与符号说明</li><li>数据预处理</li><li>各题的模型建立与求解</li><li>模型评价</li><li>参考文献</li><li>附录</li></ul><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>总结题目信息，针对各题提出各自的解决方向，然后大致描述建模过程，提出结论。</p><h2 id="问题重述"><a href="#问题重述" class="headerlink" title="问题重述"></a>问题重述</h2><ol><li>先提出问题的背景，题目里的用话改一改，少复制粘贴，各种已知信息、已知条件等能确定的信息</li><li>然后写目标任务，就是各题目，重新叙述一遍问题，不要复制粘贴，改写略写都可以<br><a href="https://zhuanlan.zhihu.com/p/352060314">范例</a></li></ol><h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><ol><li>先写一个总体的分析</li><li>然后根据各题要求去写各自的，问题要求什么-你怎么做-结论</li></ol><h2 id="基本假设与符号说明"><a href="#基本假设与符号说明" class="headerlink" title="基本假设与符号说明"></a>基本假设与符号说明</h2><blockquote><p><a href="https://zhuanlan.zhihu.com/p/352063585">来源</a></p><p>• 模型假设的意义（引自《大学生数学建模竞赛指南》肖华勇）<br>1.针对问题的主要因素，忽略次要因素；<br>2.使我们要解决的问题简化，使模型更合理化；<br>3.模型假设的重要性——关系建模的成败与优劣<br>•写作注意事项（《数学建模与竞赛指导》胡红亮，赵芳玲主编）<br>1.假设要用严格、确切的语言来表达，不能产生歧义使人误解；<br>2.所提出的假设是建立模型所必需的，是为了简化模型。不要写无关的假设，最终的结果与结果之间有很强的因果关系否则会扰乱读者的思考；<br>3.假设应该验证其合理性；<br>①从问题的性质出发作出合乎常识的假设；<br>②由观察所给数据的图像，得到变量的函数形式；<br>③通过参考文献资料类推获得，应指出参考文献相关内容；</p></blockquote><ul><li>符号说明就是什么符号代表什么意思</li></ul><h2 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h2><p>对给出的数据进行分析，检查有没有坏、脏数据，可以根据题目丢掉一些数据，或者对数据进行各种分析</p><h2 id="各题模型建立与求解"><a href="#各题模型建立与求解" class="headerlink" title="各题模型建立与求解"></a>各题模型建立与求解</h2><ol><li>模型分析的思路，可以带图</li><li>建模前的准备，要算什么特征值之类的，带公式带图</li><li>建模，根据题目建模，分步骤，给模型图片图表和公式</li><li>根据模型求解作答，带图表</li></ol><ul><li>最好给公式标上序号</li></ul><h2 id="模型评价"><a href="#模型评价" class="headerlink" title="模型评价"></a>模型评价</h2><p>模型的优缺点和改进方向</p><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>按照格式写</p><h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>正文没写全的表格数据内容，公式推导过程，没出现的全的图片，还有用到的代码等等。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;div class=&quot;note bug red&quot;&gt;&lt;p&gt;随便写的，仅供参考&lt;/p&gt;&lt;/div&gt;
+&lt;p&gt;对数学建模文章怎么写的初步认知。&lt;/p&gt;
+&lt;h2 id=&quot;建模文章结构&quot;&gt;&lt;a href=&quot;#建模文章结构&quot; class=&quot;headerlink&quot; title=&quot;建模文章结构&quot;</summary>
+      
+    
+    
+    
+    <category term="数学建模" scheme="http://gug.thisis.host/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
+    
+    
+    <category term="数学建模" scheme="http://gug.thisis.host/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Spacedesk串流指南</title>
+    <link href="http://gug.thisis.host/202312/spacedesk-streaming-guide/"/>
+    <id>http://gug.thisis.host/202312/spacedesk-streaming-guide/</id>
+    <published>2023-12-13T14:57:08.000Z</published>
+    <updated>2024-03-29T14:00:06.651Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>本人升入大学之后想在宿舍床上躺着的推gal，不想下床坐在电脑前，也曾经考虑过使用krkr等模拟器，但并不是所有gal都可以移植到这些模拟器上的（比如天使纷扰刚发售之时一度陷入了无法移植的难题，虽然后面解决了），于是我把目光放在了Spacedesk这个软件上，Spacedesk可以通过网络把屏幕复制&#x2F;拓展给其它设备，甚至支持iOS和浏览器访问。</p><h2 id="软件下载安装"><a href="#软件下载安装" class="headerlink" title="软件下载安装"></a>软件下载安装</h2><p>访问<a href="https://www.spacedesk.net/zh/">软件官网</a>下载安装主PC的服务端（仅Windows），目前最低支持版本为win8.1；主设备的服务端安装完成保持后台活动即可。<br>另外第二设备也需要安装客户端或支持HTML5的浏览器，支持Windows&#x2F;Android&#x2F;iOS&#x2F;Web。</p><h2 id="有线连接"><a href="#有线连接" class="headerlink" title="有线连接"></a>有线连接</h2><p>如果你的第二设备支持USB3.0等高速传输协议，那么建议走有线传输，譬如你的手机或平板有USB3.0，你可以购买一根2m长的USB3.0数据线从电脑拉到你的床上去，在设备的热点设置中开启“USB共享网络”，让第二设备与主设备处于同一局域网中，就可以在第二设备的客户端处看到你的主设备了（浏览器请访问 viewer.spacedesk.net 输入主设备内网IP进行连接）。</p><h2 id="无线连接"><a href="#无线连接" class="headerlink" title="无线连接"></a>无线连接</h2><p>使用无线网络进行串流，这时你需要观察：宿舍的路由器的带宽是否为千兆或以上，如果是的话，你可以使用这个路由器的5GHz信号进行串流，即双方设备均连接5GHz信号；<br>如果不幸的发现宿舍是百兆路由器，那么你还可以去第二设备的无线热点设置里看看是否可以切换为5GHz频段，如果可以的话可以让主设备连接第二设备的热点进行串流；如果还是没有，那我还是建议你降低画质或走有线，因为百兆路由器或者一般手机热点的带宽有时不足以支撑高清晰度的串流数据，会产生卡顿、割裂等情况发生（不过也不是不能用）。</p><h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><p>在Setting-Quality&#x2F;Performance中可以调整串流品质和表现，网络条件允许建议全部拉满。<br>Audio中可以开启是否将主设备的声音转到第二设备上，开启后在主设备声音输出选项中选择spacedesk virtual Speaker即可。<br>其余设置无关紧要，可自行研究。</p><h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>1.当两台设备同时处于多个网络环境下，客户端也会出现多个IP供选择（比如同时处于宿舍无线网和USB网络共享的情况下），如果判断不了哪个是哪个，打开服务端控制台，在Network Adapters中查看不同网络中主设备对应的IP即可。<br>2.使用有线连接时会有概率让主设备重新启动（原因不明，也不知道是否为设备差异原因）<br>3.台式用户在显示器投影设置中选择“复制”，然后直接关闭显示器即可<br>4.笔记本用户同上，不过记得半开合自己的屏幕，拿一卷卫生纸或笔袋夹在中间即可。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h2&gt;&lt;p&gt;本人升入大学之后想在宿舍床上躺着的推gal，不想下床坐在电脑前，也曾经考虑过使用krkr等模拟器，但并不是所有gal都可以移</summary>
+      
+    
+    
+    
+    <category term="经验分享" scheme="http://gug.thisis.host/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+    <category term="串流" scheme="http://gug.thisis.host/tags/%E4%B8%B2%E6%B5%81/"/>
+    
+    <category term="Spacedesk" scheme="http://gug.thisis.host/tags/Spacedesk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>BuildCraft六联原油精炼厂</title>
+    <link href="http://gug.thisis.host/202206/BuildCraft%E5%85%AD%E8%81%94%E6%B2%B9%E7%B2%BE%E7%82%BC%E5%8E%82%E7%9A%84%E4%B8%80%E7%A7%8D%E8%AE%BE%E8%AE%A1/"/>
+    <id>http://gug.thisis.host/202206/BuildCraft%E5%85%AD%E8%81%94%E6%B2%B9%E7%B2%BE%E7%82%BC%E5%8E%82%E7%9A%84%E4%B8%80%E7%A7%8D%E8%AE%BE%E8%AE%A1/</id>
+    <published>2022-06-29T13:47:30.000Z</published>
+    <updated>2024-03-29T13:59:31.482Z</updated>
+    
+    <content type="html"><![CDATA[<div class="note bug red"><p>以下内容为测试文章，临时写的，内容有漏洞</p></div><h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>BC这个模组我在2016年左右通过别人的实况进行了初次了解，当时我就想玩一玩这个模组，但受制于管制以及设备限制，一直拖到了今年（2022年）我才真真正正的开始玩<del>现在设备仍然是个限制</del>，自己上手后发现，这个mod虽然年代久远，但是操作逻辑十分清晰，可玩性很强，相应的机器设计也是个<del>令人头大的</del>难题。<br>在bc生存的中后期没有燃油是万万不能的，燃油在bc中通过精炼厂精炼原油获得，燃油不是一个精炼厂就能搞定的，它需要能量，需要原油，需要提取；供能的引擎需要燃油，需要散热；精炼厂的精炼速率很低，需要多个并联….如何整合这一切为一台机器便成为了一个问题，于是乎，这篇文章就此诞生了。</p><h2 id="游戏版本"><a href="#游戏版本" class="headerlink" title="游戏版本"></a>游戏版本</h2><p>MC：1.7.10<br>Buildcraft：7.1.23</p><h2 id="器材准备"><a href="#器材准备" class="headerlink" title="器材准备"></a>器材准备</h2><p>木质流体管道X6，石头流体管道若干（运输液体用，其它材质也可），铁质流体管道X1，红石引擎X15，燃油引擎X12，精炼厂X6，液泵X3，红石粉若干，拉杆若干，实心方块若干。</p><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p><strong>不太建议在沙漠中进行原油精炼，沙漠群系温度较高，燃油引擎用水量剧增，本设计中的冷却系统给水量可能跟不上耗水量，需要额外增加液泵。</strong></p><h2 id="精炼厂与燃油提取"><a href="#精炼厂与燃油提取" class="headerlink" title="精炼厂与燃油提取"></a>精炼厂与燃油提取</h2><p>首先选中一块地方，在地上放置六个红石引擎，摆放位置如图<br><a href="https://www.helloimg.com/image/ZMqGQT"><img src="https://www.helloimg.com/images/2022/06/29/ZMqGQT.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqGQT.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqGQT.png"></a><br>使用红石粉连接，并放置拉杆<br><a href="https://www.helloimg.com/image/ZMqoJK"><img src="https://www.helloimg.com/images/2022/06/29/ZMqoJK.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqoJK.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqoJK.png"></a><br>在引擎上放置木质流体管道，然后在木质管道左右两侧放置石头流体管道<br><a href="https://www.helloimg.com/image/ZMq3MS"><img src="https://www.helloimg.com/images/2022/06/29/ZMq3MS.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMq3MS.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMq3MS.png"></a><br>接着在木质管道上放置精炼厂，石头管道上放置燃油引擎<br><a href="https://www.helloimg.com/image/ZMqqZQ"><img src="https://www.helloimg.com/images/2022/06/29/ZMqqZQ.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqqZQ.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqqZQ.png"></a><br>这里就可以看出目的了：红石引擎为木质管道提取精炼厂内的燃油供能，石头管道则将燃油分配一部分到燃油引擎内为精炼厂供能</p><h2 id="燃油引擎冷却系统"><a href="#燃油引擎冷却系统" class="headerlink" title="燃油引擎冷却系统"></a>燃油引擎冷却系统</h2><p>使用石头流体管道将中间6个引擎连接在一起，管道布置如图所示<br><a href="https://www.helloimg.com/image/ZMqJyv"><img src="https://www.helloimg.com/images/2022/06/29/ZMqJyv.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqJyv.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqJyv.png"></a><br>当然，这样布置管道并不能做到平均分配水（本来管道在分岔口也是大概均分），可以做到基本均分，但没必要，但是一来有点麻烦，二来破坏美观。</p><p>延伸出去，到海面上，放置一个液泵和四个红石引擎来泵水，四个红石引擎所供的能量可以让液泵每秒抽取500MB的水，<br><a href="https://www.helloimg.com/image/ZMqlpn"><img src="https://www.helloimg.com/images/2022/06/29/ZMqlpn.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqlpn.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqlpn.png"></a><br>另外6个燃油引擎我们选择使用另外一个液泵来供水，一个液泵连12个引擎供水量跟不上耗水量，如图布置管道<br><a href="https://www.helloimg.com/image/ZMqv8h"><img src="https://www.helloimg.com/images/2022/06/29/ZMqv8h.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqv8h.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqv8h.png"></a><br><a href="https://www.helloimg.com/image/ZMq9Y5"><img src="https://www.helloimg.com/images/2022/06/29/ZMq9Y5.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMq9Y5.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMq9Y5.png"></a></p><h2 id="燃油收集与运输"><a href="#燃油收集与运输" class="headerlink" title="燃油收集与运输"></a>燃油收集与运输</h2><p>把精炼厂下面几个木质管道通过石头管道连接起来<br><a href="https://www.helloimg.com/image/ZMqQpr"><img src="https://www.helloimg.com/images/2022/06/29/ZMqQpr.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqQpr.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqQpr.png"></a><br>选择适宜的部位将两管会和，会和时使用铁质管道与扳手调整汇流方向<br><a href="https://www.helloimg.com/image/ZMqz5T"><img src="https://www.helloimg.com/images/2022/06/29/ZMqz5T.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqz5T.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqz5T.png"></a><br>然后使用管道连接储罐或者运输到远处</p><h2 id="原油供给"><a href="#原油供给" class="headerlink" title="原油供给"></a>原油供给</h2><p>原油泉正上方放置液泵与一个红石引擎，不要放多个引擎，就这一个以及完全够6个精炼厂吃的了（甚至还多了）<br><a href="https://www.helloimg.com/image/ZMq7s1"><img src="https://www.helloimg.com/images/2022/06/29/ZMq7s1.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMq7s1.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMq7s1.png"></a><br>然后将精炼厂与抽取原油的液泵相连，原油供给完成<br><a href="https://www.helloimg.com/image/ZMqIYb"><img src="https://www.helloimg.com/images/2022/06/29/ZMqIYb.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqIYb.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqIYb.png"></a><br><a href="https://www.helloimg.com/image/ZMqDdK"><img src="https://www.helloimg.com/images/2022/06/29/ZMqDdK.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMqDdK.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMqDdK.png"></a></p><h2 id="燃油引擎开关"><a href="#燃油引擎开关" class="headerlink" title="燃油引擎开关"></a>燃油引擎开关</h2><p>在所有燃油引擎上放置一个实心方块，呈M型连接，如图所示<br><a href="https://www.helloimg.com/image/ZMxoz6"><img src="https://www.helloimg.com/images/2022/06/29/ZMxoz6.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMxoz6.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMxoz6.png"></a><br>在所有放置的实心方块上撒上红石粉，将拉杆放在如图所示的中间位置，这样一个拉杆就可以控制所有燃油引擎了<br><a href="https://www.helloimg.com/image/ZMxZnP"><img src="https://www.helloimg.com/images/2022/06/29/ZMxZnP.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZMxZnP.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="ZMxZnP.png"></a></p><h2 id="启动前与初次启动事项"><a href="#启动前与初次启动事项" class="headerlink" title="启动前与初次启动事项"></a>启动前与初次启动事项</h2><p><strong>先启动抽水的液泵，并等待所有引擎全部注满冷却水后在执行下一步操作</strong><br>在引擎注水这段时间里，我建议先去准备至少12桶原油，一个燃油引擎一桶注入其中，这是初次启动的方法，初次启动前你没有燃油可以用，那就先注入一桶原油，待其燃烧殆尽后，已经提炼出了燃油，管道会将提炼出的燃油注入其中的。<br>初次启动后，引擎会先烧原油，此时精炼出的燃油无法注入，待原油耗尽后，燃油会注入其中，之后请多看看各个引擎的工作状态，是否缺水，是否缺油，一般刚刚启动容易缺油，这时将收集来的燃油装入桶中，当某个引擎缺油停止工作时，注入几桶，让他供给能量给精炼厂，否则恶性循环，燃油无法自给。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;div class=&quot;note bug red&quot;&gt;&lt;p&gt;以下内容为测试文章，临时写的，内容有漏洞&lt;/p&gt;&lt;/div&gt;
+&lt;h2 id=&quot;写在前面&quot;&gt;&lt;a href=&quot;#写在前面&quot; class=&quot;headerlink&quot; title=&quot;写在前面&quot;&gt;&lt;/a&gt;写在前面&lt;/h2&gt;&lt;p&gt;BC</summary>
+      
+    
+    
+    
+    <category term="Minecraft" scheme="http://gug.thisis.host/categories/Minecraft/"/>
+    
+    
+    <category term="Minecraft" scheme="http://gug.thisis.host/tags/Minecraft/"/>
+    
+    <category term="Buildcraft" scheme="http://gug.thisis.host/tags/Buildcraft/"/>
+    
+    <category term="mod" scheme="http://gug.thisis.host/tags/mod/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>古怪的追剧列表</title>
+    <link href="http://gug.thisis.host/202205/cinema/"/>
+    <id>http://gug.thisis.host/202205/cinema/</id>
+    <published>2022-05-22T02:57:38.000Z</published>
+    <updated>2022-05-22T02:57:38.594Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>古怪的追番列表</title>
+    <link href="http://gug.thisis.host/202205/bangumi/"/>
+    <id>http://gug.thisis.host/202205/bangumi/</id>
+    <published>2022-05-22T02:29:36.000Z</published>
+    <updated>2024-01-21T05:53:34.212Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+</feed>
