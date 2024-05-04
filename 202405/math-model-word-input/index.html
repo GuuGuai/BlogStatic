@@ -5,8 +5,8 @@
   <meta name="Volantis" content="5.8.0">
   <meta charset="utf-8">
   <!-- SEO相关 -->
-  <meta name="robots" content="noindex,follow">
-  <link rel="canonical" href="http://gug.thisis.host/tags/github/"/>
+  
+  <link rel="canonical" href="http://gug.thisis.host/202405/math-model-word-input/"/>
   <!-- 渲染优化 -->
     <meta http-equiv='x-dns-prefetch-control' content='on' />
       <link rel='dns-prefetch' href='https://unpkg.com'>
@@ -35,18 +35,22 @@
   <!-- feed -->
       <link rel="alternate" href="/atom.xml" title="古怪杂记本" type="application/atom+xml">
   <!-- 页面元数据 -->
-  <title>标签：Github - 古怪杂记本</title>
-  <meta name="keywords" content="null">
+  <title>MATLAB如何导入Word文档中的表格数据 - 古怪杂记本</title>
+  <meta name="keywords" content="数学建模,MATLAB,null">
   <meta desc name="description" content="GuuGuai的个人博客 - GuuGuai - 古怪杂记本">
   
-<meta property="og:type" content="website">
-<meta property="og:title" content="古怪杂记本">
-<meta property="og:url" content="http://gug.thisis.host/tags/Github/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MATLAB如何导入Word文档中的表格数据">
+<meta property="og:url" content="http://gug.thisis.host/202405/math-model-word-input/">
 <meta property="og:site_name" content="古怪杂记本">
-<meta property="og:description" content="GuuGuai的个人博客">
+<meta property="og:description" content="题目描述题目来源为2024年西建大学数学建模校赛C题：某单位委托了心理测评机构为148名应聘者进行了三种心理测评问卷，以了解应聘者的心理状态，问题出在测试者的问卷结果在附件中是以Word文档的形式给出，测评分数等结果在其中以表格形式给出，需要全部提取出来才可以进行之后建模数据处理。 手动录入方法最低门槛方法，不多说，一个一个Ctrl CV即可，重复的机械劳动。 MATLAB录入平时可能不会遇到从w">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2024-05-04T03:17:03.000Z">
+<meta property="article:modified_time" content="2024-05-04T04:38:54.039Z">
 <meta property="article:author" content="GuuGuai">
+<meta property="article:tag" content="数学建模">
+<meta property="article:tag" content="MATLAB">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
   <style>
@@ -2450,7 +2454,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
     
       <!-- see: /layout/_partial/scripts/_ctrl/coverCtrl.ejs -->
-      <div id="none" class='cover-wrapper  dock' style="display: none;">
+      <div id="none" class='cover-wrapper post dock' style="display: none;">
         
   <div id="parallax-window"></div>
 
@@ -2519,25 +2523,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
       <div id="safearea">
         <div class="body-wrapper">
           
-
 <div id="l_main" class=''>
-  
-    
-      
-  <section class="post-list">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow floatable blur"  itemscope itemtype="http://schema.org/Article" >
-  <link itemprop="mainEntityOfPage" href="http://gug.thisis.host/202401/github-22-timeout/">
+  <article itemscope itemtype="http://schema.org/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="http://gug.thisis.host/202405/math-model-word-input/">
   <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
     <meta itemprop="name" content="古怪杂记本">
   </span>
@@ -2546,70 +2534,265 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <meta itemprop="description" content="GuuGuai的个人博客">
   </span>
   
-  
+
+
   
     <span hidden>
       <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
     </span>
   
-  
+  <div class="article-meta" id="top">
     
-    <h2 class="article-title"  itemprop="name headline">
-      <a href="/202401/github-22-timeout/"  itemprop="url">
-        Github22端口被占用
-      </a>
-    </h2>
-  
-  <div class='md article-desc' itemprop="articleBody">
     
-      
-        昨天晚上写好一篇文章准备更新博客时，发现连不上GitHub的22端口了，网上查了查教程发现可以换端口，于是写一篇这个备忘。
-更改22端口为443端口系统是Windows 11，在用户文件夹下找到.ssh文件夹，新建config文件，在其中填写：
-123Host github.com  Hostname ssh.github.com  Port 443
-
-保存关闭即可，clean后重新生成提交...
-      
     
-  </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
+      <h1 class="title" itemprop="name headline">
+        MATLAB如何导入Word文档中的表格数据
+      </h1>
+      <div class='new-meta-box'>
         
-        <time itemprop="dateCreated datePublished" datetime="2024-01-21T13:22:23+08:00">2024-01-21</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/">经验分享</a>
           
-            <span hidden itemprop="about" itemscope itemtype="http://schema.org/Thing">
-              <a href="/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/" itemprop="url"><span itemprop="name">经验分享</span></a>
-            </span>
-          
-        
-      </div>
-      
-        <div>
-          <a class='readmore' href='/202401/github-22-timeout/' itemprop="url">
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-  
-
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://www.helloimg.com/images/2022/06/29/ZlyHRg.png" class="lazyload" data-srcset="https://www.helloimg.com/images/2022/06/29/ZlyHRg.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+    <p itemprop="name">GuuGuai</p>
+  </a>
 </div>
 
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/">数学建模</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="http://schema.org/Thing">
+        <a href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" itemprop="url"><span itemprop="name">数学建模</span></a>
+      </span>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2024-05-04T11:17:03+08:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2024-05-04</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+<div class="new-meta-item browse">
+  <a class='notlink'>
+    <p>
+      <i class="fa-solid fa-eye fa-fw" aria-hidden="true"></i>
+      
+      <span id="lc-pv" data-title="MATLAB如何导入Word文档中的表格数据" data-path="/202405/math-model-word-input/">
+        <span id='number'><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span>
+      </span>
+      
+      <span>次浏览</span>
+    </p>
+  </a>
+</div>
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>题目来源为2024年西建大学数学建模校赛C题：某单位委托了心理测评机构为148名应聘者进行了三种心理测评问卷，以了解应聘者的心理状态，问题出在测试者的问卷结果在附件中是以Word文档的形式给出，测评分数等结果在其中以表格形式给出，需要全部提取出来才可以进行之后建模数据处理。</p>
+<h2 id="手动录入方法"><a href="#手动录入方法" class="headerlink" title="手动录入方法"></a>手动录入方法</h2><p>最低门槛方法，不多说，一个一个Ctrl CV即可，重复的机械劳动。</p>
+<h2 id="MATLAB录入"><a href="#MATLAB录入" class="headerlink" title="MATLAB录入"></a>MATLAB录入</h2><p>平时可能不会遇到从word导入数据的情况，以至于有些同学不太清楚，事实上MATLAB R2013b加入的readtable函数就可以读取word文档中的表格数据，不过由于附件中的文档存在多个表格，并且存在合并单元格等等情况，直接在函数中进行控制显得凌乱而且控制功能可能不齐全，所以这里可以使用R2021b新增的wordDocumentImportOptions导入对象十分方便地控制readtable函数读取word文档中的表格数据。</p>
+<p>这个对象有5个变量属性，6个位置属性，6个替代规则，可以很方便的控制导入哪个表格，支持多种查找指定表格的方法，如何处理合并列、行的单元格，如何处理缺失值等等。</p>
+<p>参见：<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/matlab.io.word.worddocumentimportoptions.html">Microsoft Word 文档文件的导入选项对象</a></p>
+<p>下面是一个简单的例子：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">opts = wordDocumentImportOptions( ...</span><br><span class="line">    <span class="string">&#x27;NumVariables&#x27;</span>,<span class="number">5</span>, ...  <span class="comment">% 变量的数目</span></span><br><span class="line">    <span class="string">&#x27;TableSelector&#x27;</span>,<span class="string">&quot;//w:tbl[contains(.,&#x27;躯体化&#x27;)]&quot;</span>, ... <span class="comment">% XPath表达式，指定要读取的表格此处为指定含有“躯体化”的表格</span></span><br><span class="line">    <span class="string">&#x27;VariableNamesRow&#x27;</span>,<span class="number">0</span>, ... <span class="comment">% 0为不导入变量名称</span></span><br><span class="line">    <span class="string">&#x27;MergedCellColumnRule&#x27;</span>,<span class="string">&#x27;duplicate&#x27;</span>); <span class="comment">% 处理合并列单元格，此处为在所有单元格中复制数据</span></span><br><span class="line">    val=<span class="built_in">readtable</span>(path,opts);</span><br></pre></td></tr></table></figure>
+
+<h2 id="提一句"><a href="#提一句" class="headerlink" title="提一句"></a>提一句</h2><p>本学期开设了一门专业选修课：MATLAB数学建模，课本里面和老师在表格读取这块还是用的xlsread函数，但这个函数已经被MathWorks标记为：“<strong>不推荐</strong>”了：</p>
+<blockquote>
+<p>R2019a: 不推荐使用 xlsread。<br>不推荐使用 xlsread。请改用 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/readtable.html">readtable</a>、<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/readmatrix.html">readmatrix</a> 或 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/readcell.html">readcell</a>。目前没有删除 xlsread 的计划。<br>从 R2019a 开始，请分别使用 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/readtable.html">readtable</a>、<a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/readmatrix.html">readmatrix</a> 或 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/readcell.html">readcell</a> 将电子表格数据作为表、矩阵或元胞数组导入。与 xlsread 函数相比，readtable、readmatrix 和 readcell 函数&gt;具有以下优势：</p>
+<ul>
+<li>更好的跨平台支持和性能</li>
+<li>自动检测数据格式和类型</li>
+<li>能够使用导入选项来控制数据导入过程，包括错误和缺失数据的处理</li>
+</ul>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/releases/R2023b/matlab/ref/xlsread.html?s_tid=doc_ta#mw_2b66895a-270a-4fe2-aeda-ee9d833839a2">xlsread（不推荐）读取电子表格文件-兼容性注意事项</a></p>
+<p>如果课本能使用较新的readtable、readmatrix 和 readcell函数的话，同学们想必也是可以接触到word文档导入的。</p>
+
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+        
+          <div class='copyright'>
+            <blockquote>
+              
+                
+                  <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+                
+              
+                
+                  <p>本文永久链接是：<a href="http://gug.thisis.host/202405/math-model-word-input/">http://gug.thisis.host/202405/math-model-word-input/</a></p>
+                
+              
+            </blockquote>
           </div>
         
       
-    
-  </section>
+      <!-- 打赏组件 -->
+      
+    </div>
+  
   
     
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2024-05-04T12:38:54+08:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2024-05-04</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>数学建模</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/MATLAB/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>MATLAB</p></a></div>
+  <span hidden itemprop="keywords">数学建模 MATLAB</span>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://gug.thisis.host/202405/math-model-word-input/&title=MATLAB如何导入Word文档中的表格数据 - 古怪杂记本&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qq.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qq.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://gug.thisis.host/202405/math-model-word-input/&title=MATLAB如何导入Word文档中的表格数据 - 古怪杂记本&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qzone.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/qzone.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://gug.thisis.host/202405/math-model-word-input/&title=MATLAB如何导入Word文档中的表格数据 - 古怪杂记本&summary="
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/weibo.png" class="lazyload" data-srcset="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/weibo.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+          
+        </a>
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/202403/haitao-ritao/'>
+          <p class='title'>第一次海淘-日淘市集与筋斗云专线<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>前期背景玛莎破产，吃瓜吃到骏河屋国际免邮先让我说一下背景，前段时间（其实是一个月前的事情了），魔法集市因为老板被抓倒闭，一堆人钱货两空，这个事情其实挺抽象的，根据我了解到的信息，早在去年年底魔法...</p>
+        </a>
+      
+    </div>
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
   
 
 
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/202405/math-model-word-input/#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
     
-  
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
 </div>
 <aside id='l_side' itemscope itemtype="http://schema.org/WPSideBar">
   
@@ -2618,202 +2801,6 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     
     
       
-<section class="widget blogger desktop mobile pjax">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cravatar.cn/wp-content/uploads/sites/9/2024/01/small.png'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-          <h2>古古怪怪GuuGuai</h2>
-        
-        
-        
-          <p><span id="jinrishici-sentence">古怪杂记本</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="/atom.xml"
-              class="social fa-solid fa-rss flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="mailto:kaguyasama@yeah.net"
-              class="social fa-solid fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/guuguai/"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://music.163.com/#/playlist?id=7497952781&amp;creatorId=587976676"
-              class="social fa-solid fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
-
-    
-  
-
-  
-    
-    
-      
-  
-  <section class="widget category desktop pjax">
-    
-  <header>
-    
-      <a href='/blog/categories/'><i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/Minecraft/" href="/categories/Minecraft/"
-            active-action="action-categoriesMinecraft"
-            ><div class='name'>Minecraft</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" href="/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"
-            active-action="action-categoriesE695B0E5ADA6E5BBBAE6A8A1"
-            ><div class='name'>数学建模</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box"
-            title="/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/" href="/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"
-            active-action="action-categoriesE7BB8FE9AA8CE58886E4BAAB"
-            ><div class='name'>经验分享</div><div class='badge'>(6)</div></a></li>
-        
-      </ul>
-    </div>
-  </section>
-
-
-    
-  
-
-  
-    
-    
-      
-  
-  <section class="widget tagcloud desktop mobile pjax">
-    
-  <header>
-    
-      <a href='/blog/tags/'><i class="fa-solid fa-tags fa-fw" aria-hidden="true"></i><span class='name'>热门标签</span></a>
-    
-  </header>
-
-
-    <div class='content'>
-      <a href="/tags/Buildcraft/" style="font-size: 14px; color: #999">Buildcraft</a> <a href="/tags/Github/" style="font-size: 14px; color: #999">Github</a> <a href="/tags/MATLAB/" style="font-size: 19px; color: #777">MATLAB</a> <a href="/tags/Mifare-Classic-1k/" style="font-size: 14px; color: #999">Mifare Classic 1k</a> <a href="/tags/Minecraft/" style="font-size: 14px; color: #999">Minecraft</a> <a href="/tags/NFC/" style="font-size: 14px; color: #999">NFC</a> <a href="/tags/Shirobako/" style="font-size: 14px; color: #999">Shirobako</a> <a href="/tags/Spacedesk/" style="font-size: 14px; color: #999">Spacedesk</a> <a href="/tags/mod/" style="font-size: 14px; color: #999">mod</a> <a href="/tags/%E4%B8%B2%E6%B5%81/" style="font-size: 14px; color: #999">串流</a> <a href="/tags/%E5%8D%A1%E7%89%87/" style="font-size: 14px; color: #999">卡片</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/" style="font-size: 24px; color: #555">数学建模</a> <a href="/tags/%E6%97%A5%E6%B7%98/" style="font-size: 14px; color: #999">日淘</a> <a href="/tags/%E6%A0%A1%E5%9B%AD%E5%8D%A1/" style="font-size: 14px; color: #999">校园卡</a> <a href="/tags/%E6%B5%B7%E6%B7%98/" style="font-size: 14px; color: #999">海淘</a> <a href="/tags/%E7%85%A4%E7%82%89/" style="font-size: 14px; color: #999">煤炉</a> <a href="/tags/%E7%AD%8B%E6%96%97%E4%BA%91%E4%B8%93%E7%BA%BF/" style="font-size: 14px; color: #999">筋斗云专线</a> <a href="/tags/%E8%96%85%E7%BE%8A%E6%AF%9B/" style="font-size: 14px; color: #999">薅羊毛</a> <a href="/tags/%E9%93%B6%E8%A1%8C/" style="font-size: 19px; color: #777">银行</a> <a href="/tags/%E9%93%B6%E8%A1%8C%E5%8D%A1/" style="font-size: 14px; color: #999">银行卡</a> <a href="/tags/%E9%AA%8F%E6%B2%B3%E5%B1%8B/" style="font-size: 14px; color: #999">骏河屋</a>
-    </div>
-  </section>
-
-
-    
-  
-
-  
-    
-    
-      
-<section class="widget desktop pjax">
-  
-  <header>
-    
-      <i class="fa-solid fa-award fa-fw" aria-hidden="true"></i><span class='name'>站点信息</span>
-    
-  </header>
-
-
-  <div class='content'>
-    <div class="webinfo">
-      
-        <div class="webinfo-item">
-          <div>文章数目：</div>
-          <div>12 篇</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>已运行时间：</div>
-          <div id="webinfo-runtime-count"></div>
-        </div>
-      
-
-
-      
-        <div class="webinfo-item">
-          <div>本站总字数：</div>
-          <div>15.2k 字</div>
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站访客数：</div>
-          
-          <div><span id="lc-uv"><span id='number'><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span></span> 人</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>本站总访问量：</div>
-          
-          <div><span id="lc-sv"><span id='number'><i class="fa-solid fa-loader fa-spin fa-fw" aria-hidden="true"></i></span></span> 次</div>
-          
-        </div>
-      
-
-      
-        <div class="webinfo-item">
-          <div>最后活动时间：</div>
-          <div id="last-update-show">2024-05-04 日</div>
-        </div>
-      
-    </div>
-  </div>
-</section>
-
     
   
 
@@ -2842,10 +2829,46 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 <div class="widget-sticky pjax">
 
+  
+  
+
+
+  <section class="widget toc-wrapper desktop mobile " id="toc-div" >
+    
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%8A%A8%E5%BD%95%E5%85%A5%E6%96%B9%E6%B3%95"><span class="toc-text">手动录入方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MATLAB%E5%BD%95%E5%85%A5"><span class="toc-text">MATLAB录入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%B8%80%E5%8F%A5"><span class="toc-text">提一句</span></a></li></ol>
+    </div>
+  </section>
+
+  
+
 </div>
 
 
 <!-- 没有 pjax 占位会报错 万恶的 pjax -->
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
 
   <div class="pjax">
     <!-- pjax占位 -->
@@ -2865,13 +2888,14 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </aside>
 
 
+
           <!--此文件用来存放一些不方便取值的变量-->
 <!--思路大概是将值藏到重加载的区域内-->
 
 <pjax>
 <script>
   window.pdata={}
-  pdata.ispage=false;
+  pdata.ispage=true;
   pdata.commentPath="";
   pdata.commentPlaceholder="";
   pdata.commentConfig={};
@@ -4074,7 +4098,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"古怪杂记本","url":"http://gug.thisis.host/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"GuuGuai","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://gug.thisis.host/","sameAs":["https://github.com/volantis-x"],"description":"GuuGuai的个人博客"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"http://gug.thisis.host/","name":"古怪杂记本"}},{"@type":"ListItem","position":2,"item":{"@id":"http://gug.thisis.host/tags/Github/","name":"Github"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"古怪杂记本","url":"http://gug.thisis.host/","keywords":null,"description":"GuuGuai的个人博客","author":{"@type":"Person","name":"GuuGuai","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://gug.thisis.host/","description":"GuuGuai的个人博客"},"publisher":{"@type":"Organization","name":"古怪杂记本","url":"http://gug.thisis.host/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"http://gug.thisis.host?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","description":"GuuGuai的个人博客","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage"},"author":{"@type":"Person","name":"GuuGuai","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://gug.thisis.host/"},"publisher":{"@type":"Organization","name":"古怪杂记本","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"wordCount":0,"image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"古怪杂记本","url":"http://gug.thisis.host/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"GuuGuai","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://gug.thisis.host/","sameAs":["https://github.com/volantis-x"],"description":"GuuGuai的个人博客"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"http://gug.thisis.host/","name":"古怪杂记本"}},{"@type":"ListItem","position":2,"item":{"@id":"http://gug.thisis.host/categories/数学建模/","name":"数学建模"}},{"@type":"ListItem","position":3,"item":{"@id":"http://gug.thisis.host/202405/math-model-word-input/","name":"MATLAB如何导入Word文档中的表格数据"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"古怪杂记本","url":"http://gug.thisis.host/","keywords":null,"description":"GuuGuai的个人博客","author":{"@type":"Person","name":"GuuGuai","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://gug.thisis.host/","description":"GuuGuai的个人博客"},"publisher":{"@type":"Organization","name":"古怪杂记本","url":"http://gug.thisis.host/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"http://gug.thisis.host?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"MATLAB如何导入Word文档中的表格数据","description":"GuuGuai的个人博客","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"http://gug.thisis.host/202405/math-model-word-input/"},"author":{"@type":"Person","name":"GuuGuai","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"http://gug.thisis.host/"},"publisher":{"@type":"Organization","name":"古怪杂记本","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"http://gug.thisis.host/202405/math-model-word-input/","wordCount":0,"datePublished":"2024-05-04T03:17:03.000Z","dateModified":"2024-05-04T04:38:54.039Z","articleSection":"数学建模","keywords":"数学建模,MATLAB","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
