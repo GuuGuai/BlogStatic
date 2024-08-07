@@ -33,41 +33,6 @@
     
     
     <entry>
-      <title>矿潮垃圾我家云，现在应该怎么用？</title>
-      <link href="/202407/chainedbox-note/"/>
-      <url>/202407/chainedbox-note/</url>
-      
-        <content type="html"><![CDATA[<h2 id="设备参数"><a href="#设备参数" class="headerlink" title="设备参数"></a>设备参数</h2><p>我家云是2018年的时候由北京云汇天下科技有限公司推出的区块链存储产品，在此之前他们已经推出了另外一个硬件设备：云汇魔盒，不过这个设备没有内置硬盘位的，需自行外接硬盘。</p><p>我家云当年的存储逻辑不是把数据全部放在本地存储，而是可以把数据加密后打碎放到其它用户的闲置硬盘空间之中，分布式存储依赖设备节点的开机联网，再加之2018年下半年区块链国家管控措施实施，分布式网络节点骤减，公司资金耗尽，产品运营无法继续下去，于2019年7⽉19日宣布于2019年8月19日停止服务，</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 经验分享 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 我家云 </tag>
-            
-            <tag> chainedbox </tag>
-            
-            <tag> NAS </tag>
-            
-            <tag> Tailscale </tag>
-            
-            <tag> Openwrt </tag>
-            
-            <tag> OMV </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>上课不带电脑之：我走了多少弯路？</title>
       <link href="/202405/no-computer-to-class/"/>
       <url>/202405/no-computer-to-class/</url>
