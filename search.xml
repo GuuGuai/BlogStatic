@@ -22,9 +22,9 @@
             
             <tag> Minecraft </tag>
             
-            <tag> 译名 </tag>
-            
             <tag> Java版 </tag>
+            
+            <tag> 译名 </tag>
             
         </tags>
       
@@ -51,13 +51,13 @@
             
             <tag> VScode </tag>
             
-            <tag> Jupyter </tag>
-            
-            <tag> AWS </tag>
+            <tag> 远程开发 </tag>
             
             <tag> code-server </tag>
             
-            <tag> 远程开发 </tag>
+            <tag> Jupyter </tag>
+            
+            <tag> AWS </tag>
             
         </tags>
       

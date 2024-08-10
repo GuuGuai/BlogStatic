@@ -38,9 +38,9 @@
     
     <category term="Minecraft" scheme="http://gug.thisis.host/tags/Minecraft/"/>
     
-    <category term="译名" scheme="http://gug.thisis.host/tags/%E8%AF%91%E5%90%8D/"/>
-    
     <category term="Java版" scheme="http://gug.thisis.host/tags/Java%E7%89%88/"/>
+    
+    <category term="译名" scheme="http://gug.thisis.host/tags/%E8%AF%91%E5%90%8D/"/>
     
   </entry>
   
@@ -66,13 +66,13 @@
     
     <category term="VScode" scheme="http://gug.thisis.host/tags/VScode/"/>
     
-    <category term="Jupyter" scheme="http://gug.thisis.host/tags/Jupyter/"/>
-    
-    <category term="AWS" scheme="http://gug.thisis.host/tags/AWS/"/>
+    <category term="远程开发" scheme="http://gug.thisis.host/tags/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
     
     <category term="code-server" scheme="http://gug.thisis.host/tags/code-server/"/>
     
-    <category term="远程开发" scheme="http://gug.thisis.host/tags/%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91/"/>
+    <category term="Jupyter" scheme="http://gug.thisis.host/tags/Jupyter/"/>
+    
+    <category term="AWS" scheme="http://gug.thisis.host/tags/AWS/"/>
     
   </entry>
   
