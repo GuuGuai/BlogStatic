@@ -6,7 +6,7 @@
   <link href="http://gug.thisis.host/atom.xml" rel="self"/>
   
   <link href="http://gug.thisis.host/"/>
-  <updated>2024-11-19T04:57:48.577Z</updated>
+  <updated>2026-01-23T09:33:58.063Z</updated>
   <id>http://gug.thisis.host/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何获取GCP6位验证码:中行借记卡预授权记录查询</title>
+    <link href="http://gug.thisis.host/202601/boc-google-cloud/"/>
+    <id>http://gug.thisis.host/202601/boc-google-cloud/</id>
+    <published>2026-01-23T02:44:27.000Z</published>
+    <updated>2026-01-23T09:33:58.063Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>使用中行Visa&#x2F;Mastercard借记卡的同学，在开Google Cloud的时候，可能会卡在获取6位验证码这个地方。</p><p><img title="验证码提示窗口" src="https://image.baidu.com/search/down?url=https://p.cldisk.com/star4/3ab09f351a2099871a28cac8e7d0d3f3/origin.png" style="zoom:50%"></p><p>Google会暂时扣一笔款然后在商户名称处标注一个6位的验证码，你需要在一定时间内把这个验证码填入窗口内。</p><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>如果你熟悉Visa&#x2F;Mastercard的交易方式，有些同学应该能明白这个问题出在哪，这些卡全部都是采用<strong>先预授权、后入账扣款</strong>的双信息交易模式，交易发生的时候，并不会立刻扣款，而是先冻结一部分金额，过几天卡组织和银行结算的时候才解冻完成扣款，在这种交易模式下，一笔交易分为两次：先“打招呼占位”，后“正式算账”，第一条信息只是预授权（即冻结一部分金额），第二条信息才进行清算与结算，然后把交易记录正式写入账单。</p><p>一般而言，中国银行的入账时间大概是两三天，但是这个两三天是对正常的消费交易来说的，这种以验证码为目的的交易，可能并不会主动发起第二条信息，也就是说只预授权冻结一部分金额，不主动发起结算，验证成功就冲正，验证超时就等银行预授权到期自己解冻，根据我的测试，Google Cloud的验证码可能就属于这种类型的，交易发生后这笔交易将会一直处于授权状态，不会发起结算，但是中国银行手机银行客户端<strong>无法查询</strong>预授权记录，只能查询交易记录，不结算就没有交易记录，所以依靠手机银行查验证码是无解的。</p><p>好在这个问题可以通过银行柜台查询解决，参考poplite’s blog的文章<a href="https://poplite.xyz/post/2018/03/05/boc-debit-card-guide-for-online-payment.html#%E4%BA%BA%E5%B7%A5%E6%9F%9C%E5%8F%B0">跨境通VISA&#x2F;万事达借记卡介绍与网上支付体验</a>，带上<strong>身份证和银行卡</strong>，前往离你最近的中国银行网点，上柜台后让柜员用下面的交易代码查询记录：</p><table><thead><tr><th>交易代码</th><th>交易名称</th></tr></thead><tbody><tr><td>8103327</td><td>预授权查询</td></tr></tbody></table><p>有些地方的柜员可能从来没有用过这个代码，甚至不太了解万事达借记卡的交易方式，所以可以向柜员主动解释一下万事达借记卡的情况和你的目的。</p><p>然后给柜员说一下你的交易日期，让柜员把那天的预授权记录打印下来给你，如下图所示：</p><p><img title="预授权记录打印单" src="https://image.baidu.com/search/down?url=https://p.cldisk.com/star4/245f7b605ca2594646af3169435017ba/origin.png" style="zoom:50%"></p><p>找到当天的那笔1.95美元的交易，图中画圈的地方就是需要填写的验证码，验证通过后Google会接着扣10美元的预付金，并且先前的这笔1.95美元的验证码交易不久会被冲正交易。</p><p><img title="冲正交易短信" src="https://image.baidu.com/search/down?url=https://p.cldisk.com/star4/1926d43a4bfbba832cd448258f589a49/origin.png" style="zoom:30%"></p><h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><p>这个验证码是会过期的，大概14天，提前3天会发邮件告知，记得及时去网点查，到期之后要重新扣款。</p><p><img title="验证码失效提醒邮件" src="https://image.baidu.com/search/down?url=https://p.cldisk.com/star4/29b25774cfea1b800737651fbbfe106b/origin.png" style="zoom:50%"></p><p>另外从打印出来的预授权记录中可以发现，每一笔预授权是有一个到期日的，到期的验证码对应的交易（我图片里上面的两笔交易就是）估计会在银行的预授权到期日后解冻，时间看起来是一个月，不用担心之前等不到的验证码扣的那些钱怎么这么长时间没动静，等一个月就行，正确验证的那笔钱会在验证后直接冲正。</p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol><li><a href="https://poplite.xyz/post/2018/03/05/boc-debit-card-guide-for-online-payment.html">跨境通VISA&#x2F;万事达借记卡介绍与网上支付体验</a></li><li><a href="https://www.zhihu.com/question/49945049">知乎-银行卡双信息和单信息的区别？</a></li><li><a href="https://www.boc.cn/bcservice/bc3/bc31/202111/t20211115_20301745.html">中国银行股份有限公司长城借记卡章程（2021年版）</a></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;使用中行Visa&amp;#x2F;Mastercard借记卡的同学，在开Google Cloud的时候，可能会卡在获取6位验证码这个地方。&lt;/p&gt;</summary>
+      
+    
+    
+    
+    <category term="经验分享" scheme="http://gug.thisis.host/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"/>
+    
+    
+    <category term="银行" scheme="http://gug.thisis.host/tags/%E9%93%B6%E8%A1%8C/"/>
+    
+    <category term="银行卡" scheme="http://gug.thisis.host/tags/%E9%93%B6%E8%A1%8C%E5%8D%A1/"/>
+    
+    <category term="Google Cloud" scheme="http://gug.thisis.host/tags/Google-Cloud/"/>
+    
+  </entry>
   
   <entry>
     <title>MC扫盲之版本/启动器/正盗版/外置登录</title>
